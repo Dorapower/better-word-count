@@ -50,7 +50,7 @@ export default class StatsManager {
           history: {},
           modifiedFiles: {},
         };
-        await this.vault.adapter.write(this.plugin.settings.statsPath, JSON.stringify(vaultSt));
+        await this.vault.adapter.write(this.plugin.settings.statsPath, this.generate_stats(vaultSt));
         this.vaultStats = JSON.parse(await this.vault.adapter.read(this.plugin.settings.statsPath));
       } else {
         this.vaultStats = JSON.parse(await this.vault.adapter.read(this.plugin.settings.statsPath));
@@ -59,7 +59,7 @@ export default class StatsManager {
             history: {},
             modifiedFiles: {},
           };
-          await this.vault.adapter.write(this.plugin.settings.statsPath, JSON.stringify(vaultSt));
+          await this.vault.adapter.write(this.plugin.settings.statsPath, this.generate_stats(vaultSt));
         }
         this.vaultStats = JSON.parse(await this.vault.adapter.read(this.plugin.settings.statsPath));
       }
@@ -69,7 +69,15 @@ export default class StatsManager {
   }
 
   async update(): Promise<void> {
-    this.vault.adapter.write(this.plugin.settings.statsPath, JSON.stringify(this.vaultStats));
+    this.vault.adapter.write(this.plugin.settings.statsPath, this.generate_stats(this.vaultStats));
+  }
+
+  generate_stats(stats: VaultStatistics): string {
+    let space = null;
+    if (this.plugin.settings.statFileIndent >= 0) {
+      space = this.plugin.settings.statFileIndent;
+    }
+    return JSON.stringify(stats, null, space);
   }
 
   async updateToday(): Promise<void> {

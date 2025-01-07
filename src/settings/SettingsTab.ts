@@ -85,6 +85,24 @@ export default class BetterWordCountSettingsTab extends PluginSettingTab {
           });
       });
 
+    new Setting(containerEl)
+      .setName("Vault Stats Indentation")
+      .setDesc("The number of spaces to indent the vault stats file. Set to -1 to disable formatting.")
+      .addText((text: TextComponent) => {
+        text.inputEl.type = "number";
+        text
+          .setPlaceholder("-1")
+          .setValue(String(this.plugin.settings.statFileIndent))
+          .onChange(async (value: string) => {
+            if (value) {
+              this.plugin.settings.statFileIndent = parseInt(value);
+            } else {
+              this.plugin.settings.statFileIndent = -1;
+            }
+            await this.plugin.saveSettings();
+          });
+      });
+
     // Status Bar Settings
     addStatusBarSettings(this.plugin, containerEl);
   }

@@ -41,6 +41,7 @@ export interface BetterWordCountSettings {
   altBar: StatusBarItem[];
   countComments: boolean;
   collectStats: boolean;
+  statFileIndent: number;
   pageWords: number;
   displaySectionCounts: boolean;
   statsPath: string;
@@ -77,6 +78,7 @@ export const DEFAULT_SETTINGS: BetterWordCountSettings = {
   ],
   countComments: false,
   collectStats: false,
+  statFileIndent: -1,
   displaySectionCounts: false,
   pageWords: 300,
   statsPath: ".obsidian/vault-stats.json",
